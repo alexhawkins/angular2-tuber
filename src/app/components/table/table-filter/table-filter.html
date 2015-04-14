@@ -1,0 +1,11 @@
+<form>
+    <input 
+      class="form-control" 
+      type="text" 
+      placeholder="Filter videos by title..." 
+      id="filterBarText" 
+      value=""
+      (keypress)="preventReload($event)"
+      (keyup)="changeFilter($event)"
+      />
+</form>

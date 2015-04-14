@@ -1,0 +1,13 @@
+Title 
+<span 
+  *if="title"
+  class="glyphicon glyphicon-triangle-bottom" 
+  (click)="orderBy()"
+  >
+</span>
+<span 
+  *if="!title"
+  class="glyphicon glyphicon-triangle-top"
+  (click)="orderBy()"
+  >
+</span>

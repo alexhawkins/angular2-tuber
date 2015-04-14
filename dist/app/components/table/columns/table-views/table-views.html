@@ -1,0 +1,13 @@
+Views
+<span 
+  *if="views"
+  class="glyphicon glyphicon-triangle-bottom" 
+  (click)="orderBy()"
+  >
+</span>
+<span 
+  *if="!views"
+  class="glyphicon glyphicon-triangle-top"
+  (click)="orderBy()"
+  >
+</span>

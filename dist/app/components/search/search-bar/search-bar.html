@@ -1,0 +1,17 @@
+<form >
+    <div class="input-group">
+        <input  type="text"
+                id="query"
+                class="form-control" 
+                placeholder="Search..." 
+                aria-describedby="sizing-addon2"
+                (keydown)="enterQuery($event)" 
+        />
+        <span class="input-group-btn">
+             <button 
+                type="submit" 
+                class="btn btn-default search-button" 
+                (click)="getQuery($event)">Video Search</button>
+        </span>
+    </div>
+</form>

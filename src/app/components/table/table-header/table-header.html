@@ -1,0 +1,14 @@
+<div class="Table-row Table-header">
+    <div class="Table-row-item">
+        <table-image></table-image>
+    </div>
+    <div class="Table-row-item u-Flex-grow4">
+        <table-title [title]="getOrderBy('title')"></table-title>
+    </div>
+    <div class="Table-row-item u-Flex-grow">
+        <table-created [created]="getOrderBy('publishedAt')"></table-created>
+    </div>
+     <div class="Table-row-item">
+        <table-views [views]="getOrderBy('views')"></table-views>
+    </div>
+</div>

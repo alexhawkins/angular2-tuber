@@ -1,0 +1,44 @@
+{
+  "name": "angular2_tuber",
+  "version": "1.0.0",
+  "description": "YouTube search engine built with Angular 2",
+  "main": "app.js",
+  "scripts": {
+    "test": "test",
+    "start": "gulp play"
+  },
+  "keywords": [
+    "angular2",
+    "ng2",
+    "react",
+    "angular",
+    "es6",
+    "modular",
+    "javascript",
+    "flux"
+  ],
+  "author": "Alex Hawkins 2015",
+  "license": "ISC",
+  "dependencies": {
+    "angular2": "2.0.0-alpha.18",
+    "axios": "^0.5.2",
+    "bootstrap": "^3.3.4",
+    "es6-module-loader": "~0.11.0",
+    "moment": "^2.9.0",
+    "systemjs": "~0.11.0",
+    "zone.js": "0.4.1"
+  },
+  "devDependencies": {
+    "connect": "^3.3.4",
+    "del": "~1.1.1",
+    "gulp": "~3.8.10",
+    "gulp-concat": "~2.5.0",
+    "gulp-gh-pages": "^0.5.0",
+    "gulp-plumber": "^1.0.0",
+    "gulp-rename": "~1.2.0",
+    "gulp-traceur": "0.17.*",
+    "open": "0.0.5",
+    "serve-static": "~1.8.1",
+    "through2": "~0.6.3"
+  }
+}

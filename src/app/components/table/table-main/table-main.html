@@ -1,0 +1,16 @@
+<style>
+    @import url("table-main.css");
+</style>
+
+<div class="Table">
+    <table-header></table-header>
+        <div *for="#video of getVideos()">
+            <table-row 
+                [video]="video.snippet"
+                [views]="getViews(video)"
+                [created]="getDate(video)"
+                [link]="getVidLink(video)"
+            >
+            </table-row>
+        </div>
+</div>

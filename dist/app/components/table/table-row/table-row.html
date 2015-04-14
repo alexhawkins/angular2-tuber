@@ -1,0 +1,15 @@
+<style>
+@import url("table-row.css");
+</style>
+
+<div class="Table-row" *if="video">
+    <div class="Table-row-item">
+        <a href={{link}} >
+        <img class="img-thumbnail thumb" src={{video.thumbnails.default.url}} />
+        </a>
+    </div>
+    <div class="Table-row-item u-Flex-grow4 video-title">
+        <a href={{link}}>{{video.title}}</a></div>
+    <div class="Table-row-item u-Flex-grow italic-title">{{created}}</div>
+    <div class="Table-row-item bold-title">{{views}}</div>
+</div>

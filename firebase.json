@@ -1,0 +1,9 @@
+{
+  "firebase": "angular2-youtuber",
+  "public": "dist",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**"
+  ]
+}
