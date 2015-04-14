@@ -29,7 +29,7 @@ Created by [Alex Hawkins](https://twitter.com/alexchawkins) - April 2015
 
 ###[@kentcdodds](https://twitter.com/kentcdodds)
 
-###[@patrickjs](https://twitter.com/gdi2290) 
+###[@gdi2290](https://twitter.com/gdi2290) (aka [PatrickJS](https://github.com/gdi2290))
 
 *This project would not have been possible without their awesome Angular2 projects:* 
 * [ng2-RandomUser](https://github.com/kentcdodds/ng2-random-user)
