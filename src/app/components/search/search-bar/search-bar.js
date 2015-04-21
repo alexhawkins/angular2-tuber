@@ -22,7 +22,7 @@ export class SearchBar {
 
   //responds to enter or tab events
   enterQuery($event) {
-    // if tab or enter pressed
+    // if enter pressed
     if ($event.which === keymap.enter) {
       if ($event.target.value !== '') {
         this.getQuery($event);
@@ -32,10 +32,10 @@ export class SearchBar {
   //responds to click events
   getQuery($event) {
         $event.preventDefault();
-        let query = document.getElementById('query').value.trim();
+        let query = $event.target.value.trim();
         if (query !== '') {
             this.tuberService.searchYouTube(query);
-            document.getElementById('query').value = '';
+            $event.target.value !== '';
         }
   }
 

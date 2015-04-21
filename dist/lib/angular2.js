@@ -2623,351 +2623,6 @@ System.register("angular2/src/core/exception_handler", ["angular2/di", "angular2
   };
 });
 
-System.register("angular2/src/directives/for", ["angular2/src/core/annotations/annotations", "angular2/src/core/compiler/view_container", "angular2/src/core/compiler/view", "angular2/src/facade/lang", "angular2/src/facade/collection"], function($__export) {
-  "use strict";
-  var __moduleName = "angular2/src/directives/for";
-  var Viewport,
-      ViewContainer,
-      View,
-      isPresent,
-      isBlank,
-      ListWrapper,
-      For,
-      RecordViewTuple;
-  return {
-    setters: [function($__m) {
-      Viewport = $__m.Viewport;
-    }, function($__m) {
-      ViewContainer = $__m.ViewContainer;
-    }, function($__m) {
-      View = $__m.View;
-    }, function($__m) {
-      isPresent = $__m.isPresent;
-      isBlank = $__m.isBlank;
-    }, function($__m) {
-      ListWrapper = $__m.ListWrapper;
-    }],
-    execute: function() {
-      For = $__export("For", (function() {
-        var For = function For(viewContainer) {
-          this.viewContainer = viewContainer;
-        };
-        return ($traceurRuntime.createClass)(For, {
-          set iterableChanges(changes) {
-            if (isBlank(changes)) {
-              this.viewContainer.clear();
-              return ;
-            }
-            var recordViewTuples = [];
-            changes.forEachRemovedItem((function(removedRecord) {
-              return ListWrapper.push(recordViewTuples, new RecordViewTuple(removedRecord, null));
-            }));
-            changes.forEachMovedItem((function(movedRecord) {
-              return ListWrapper.push(recordViewTuples, new RecordViewTuple(movedRecord, null));
-            }));
-            var insertTuples = For.bulkRemove(recordViewTuples, this.viewContainer);
-            changes.forEachAddedItem((function(addedRecord) {
-              return ListWrapper.push(insertTuples, new RecordViewTuple(addedRecord, null));
-            }));
-            For.bulkInsert(insertTuples, this.viewContainer);
-            for (var i = 0; i < insertTuples.length; i++) {
-              this.perViewChange(insertTuples[i].view, insertTuples[i].record);
-            }
-          },
-          perViewChange: function(view, record) {
-            view.setLocal('\$implicit', record.item);
-            view.setLocal('index', record.currentIndex);
-          }
-        }, {
-          bulkRemove: function(tuples, viewContainer) {
-            tuples.sort((function(a, b) {
-              return a.record.previousIndex - b.record.previousIndex;
-            }));
-            var movedTuples = [];
-            for (var i = tuples.length - 1; i >= 0; i--) {
-              var tuple = tuples[i];
-              if (isPresent(tuple.record.currentIndex)) {
-                tuple.view = viewContainer.detach(tuple.record.previousIndex);
-                ListWrapper.push(movedTuples, tuple);
-              } else {
-                viewContainer.remove(tuple.record.previousIndex);
-              }
-            }
-            return movedTuples;
-          },
-          bulkInsert: function(tuples, viewContainer) {
-            tuples.sort((function(a, b) {
-              return a.record.currentIndex - b.record.currentIndex;
-            }));
-            for (var i = 0; i < tuples.length; i++) {
-              var tuple = tuples[i];
-              if (isPresent(tuple.view)) {
-                viewContainer.insert(tuple.view, tuple.record.currentIndex);
-              } else {
-                tuple.view = viewContainer.create(tuple.record.currentIndex);
-              }
-            }
-            return tuples;
-          }
-        });
-      }()));
-      Object.defineProperty(For, "annotations", {get: function() {
-          return [new Viewport({
-            selector: '[for][of]',
-            bind: {'iterableChanges': 'of | iterableDiff'}
-          })];
-        }});
-      Object.defineProperty(For, "parameters", {get: function() {
-          return [[ViewContainer]];
-        }});
-      RecordViewTuple = (function() {
-        var RecordViewTuple = function RecordViewTuple(record, view) {
-          this.record = record;
-          this.view = view;
-        };
-        return ($traceurRuntime.createClass)(RecordViewTuple, {}, {});
-      }());
-    }
-  };
-});
-
-System.register("angular2/src/directives/if", ["angular2/src/core/annotations/annotations", "angular2/src/core/compiler/view_container", "angular2/src/facade/lang"], function($__export) {
-  "use strict";
-  var __moduleName = "angular2/src/directives/if";
-  var Viewport,
-      ViewContainer,
-      isBlank,
-      If;
-  return {
-    setters: [function($__m) {
-      Viewport = $__m.Viewport;
-    }, function($__m) {
-      ViewContainer = $__m.ViewContainer;
-    }, function($__m) {
-      isBlank = $__m.isBlank;
-    }],
-    execute: function() {
-      If = $__export("If", (function() {
-        var If = function If(viewContainer) {
-          this.viewContainer = viewContainer;
-          this.prevCondition = null;
-        };
-        return ($traceurRuntime.createClass)(If, {set condition(newCondition) {
-            if (newCondition && (isBlank(this.prevCondition) || !this.prevCondition)) {
-              this.prevCondition = true;
-              this.viewContainer.create();
-            } else if (!newCondition && (isBlank(this.prevCondition) || this.prevCondition)) {
-              this.prevCondition = false;
-              this.viewContainer.clear();
-            }
-          }}, {});
-      }()));
-      Object.defineProperty(If, "annotations", {get: function() {
-          return [new Viewport({
-            selector: '[if]',
-            bind: {'condition': 'if'}
-          })];
-        }});
-      Object.defineProperty(If, "parameters", {get: function() {
-          return [[ViewContainer]];
-        }});
-    }
-  };
-});
-
-System.register("angular2/src/directives/non_bindable", ["angular2/src/core/annotations/annotations"], function($__export) {
-  "use strict";
-  var __moduleName = "angular2/src/directives/non_bindable";
-  var Decorator,
-      NonBindable;
-  return {
-    setters: [function($__m) {
-      Decorator = $__m.Decorator;
-    }],
-    execute: function() {
-      NonBindable = $__export("NonBindable", (function() {
-        var NonBindable = function NonBindable() {
-          ;
-        };
-        return ($traceurRuntime.createClass)(NonBindable, {}, {});
-      }()));
-      Object.defineProperty(NonBindable, "annotations", {get: function() {
-          return [new Decorator({
-            selector: '[non-bindable]',
-            compileChildren: false
-          })];
-        }});
-    }
-  };
-});
-
-System.register("angular2/src/directives/switch", ["angular2/src/core/annotations/annotations", "angular2/src/core/compiler/view_container", "angular2/src/core/dom/element", "angular2/src/facade/lang", "angular2/src/facade/collection", "angular2/src/core/annotations/visibility"], function($__export) {
-  "use strict";
-  var __moduleName = "angular2/src/directives/switch";
-  var Decorator,
-      Viewport,
-      ViewContainer,
-      NgElement,
-      isPresent,
-      isBlank,
-      normalizeBlank,
-      ListWrapper,
-      List,
-      MapWrapper,
-      Map,
-      Parent,
-      Switch,
-      SwitchWhen,
-      SwitchDefault,
-      _whenDefault;
-  return {
-    setters: [function($__m) {
-      Decorator = $__m.Decorator;
-      Viewport = $__m.Viewport;
-    }, function($__m) {
-      ViewContainer = $__m.ViewContainer;
-    }, function($__m) {
-      NgElement = $__m.NgElement;
-    }, function($__m) {
-      isPresent = $__m.isPresent;
-      isBlank = $__m.isBlank;
-      normalizeBlank = $__m.normalizeBlank;
-    }, function($__m) {
-      ListWrapper = $__m.ListWrapper;
-      List = $__m.List;
-      MapWrapper = $__m.MapWrapper;
-      Map = $__m.Map;
-    }, function($__m) {
-      Parent = $__m.Parent;
-    }],
-    execute: function() {
-      Switch = $__export("Switch", (function() {
-        var Switch = function Switch() {
-          this._valueViewContainers = MapWrapper.create();
-          this._activeViewContainers = ListWrapper.create();
-          this._useDefault = false;
-        };
-        return ($traceurRuntime.createClass)(Switch, {
-          set value(value) {
-            this._emptyAllActiveViewContainers();
-            this._useDefault = false;
-            var containers = MapWrapper.get(this._valueViewContainers, value);
-            if (isBlank(containers)) {
-              this._useDefault = true;
-              containers = normalizeBlank(MapWrapper.get(this._valueViewContainers, _whenDefault));
-            }
-            this._activateViewContainers(containers);
-            this._switchValue = value;
-          },
-          _onWhenValueChanged: function(oldWhen, newWhen, viewContainer) {
-            this._deregisterViewContainer(oldWhen, viewContainer);
-            this._registerViewContainer(newWhen, viewContainer);
-            if (oldWhen === this._switchValue) {
-              viewContainer.remove();
-              ListWrapper.remove(this._activeViewContainers, viewContainer);
-            } else if (newWhen === this._switchValue) {
-              if (this._useDefault) {
-                this._useDefault = false;
-                this._emptyAllActiveViewContainers();
-              }
-              viewContainer.create();
-              ListWrapper.push(this._activeViewContainers, viewContainer);
-            }
-            if (this._activeViewContainers.length === 0 && !this._useDefault) {
-              this._useDefault = true;
-              this._activateViewContainers(MapWrapper.get(this._valueViewContainers, _whenDefault));
-            }
-          },
-          _emptyAllActiveViewContainers: function() {
-            var activeContainers = this._activeViewContainers;
-            for (var i = 0; i < activeContainers.length; i++) {
-              activeContainers[i].remove();
-            }
-            this._activeViewContainers = ListWrapper.create();
-          },
-          _activateViewContainers: function(containers) {
-            if (isPresent(containers)) {
-              for (var i = 0; i < containers.length; i++) {
-                containers[i].create();
-              }
-              this._activeViewContainers = containers;
-            }
-          },
-          _registerViewContainer: function(value, container) {
-            var containers = MapWrapper.get(this._valueViewContainers, value);
-            if (isBlank(containers)) {
-              containers = ListWrapper.create();
-              MapWrapper.set(this._valueViewContainers, value, containers);
-            }
-            ListWrapper.push(containers, container);
-          },
-          _deregisterViewContainer: function(value, container) {
-            if (value == _whenDefault)
-              return ;
-            var containers = MapWrapper.get(this._valueViewContainers, value);
-            if (containers.length == 1) {
-              MapWrapper.delete(this._valueViewContainers, value);
-            } else {
-              ListWrapper.remove(containers, container);
-            }
-          }
-        }, {});
-      }()));
-      Object.defineProperty(Switch, "annotations", {get: function() {
-          return [new Decorator({
-            selector: '[switch]',
-            bind: {'value': 'switch'}
-          })];
-        }});
-      Object.defineProperty(Switch.prototype._onWhenValueChanged, "parameters", {get: function() {
-          return [[], [], [ViewContainer]];
-        }});
-      Object.defineProperty(Switch.prototype._activateViewContainers, "parameters", {get: function() {
-          return [[assert.genericType(List, ViewContainer)]];
-        }});
-      Object.defineProperty(Switch.prototype._registerViewContainer, "parameters", {get: function() {
-          return [[], [ViewContainer]];
-        }});
-      Object.defineProperty(Switch.prototype._deregisterViewContainer, "parameters", {get: function() {
-          return [[], [ViewContainer]];
-        }});
-      SwitchWhen = $__export("SwitchWhen", (function() {
-        var SwitchWhen = function SwitchWhen(el, viewContainer, sswitch) {
-          this._value = _whenDefault;
-          this._switch = sswitch;
-          this._viewContainer = viewContainer;
-        };
-        return ($traceurRuntime.createClass)(SwitchWhen, {set when(value) {
-            this._switch._onWhenValueChanged(this._value, value, this._viewContainer);
-            this._value = value;
-          }}, {});
-      }()));
-      Object.defineProperty(SwitchWhen, "annotations", {get: function() {
-          return [new Viewport({
-            selector: '[switch-when]',
-            bind: {'when': 'switch-when'}
-          })];
-        }});
-      Object.defineProperty(SwitchWhen, "parameters", {get: function() {
-          return [[NgElement], [ViewContainer], [Switch, new Parent()]];
-        }});
-      SwitchDefault = $__export("SwitchDefault", (function() {
-        var SwitchDefault = function SwitchDefault(viewContainer, sswitch) {
-          sswitch._registerViewContainer(_whenDefault, viewContainer);
-        };
-        return ($traceurRuntime.createClass)(SwitchDefault, {}, {});
-      }()));
-      Object.defineProperty(SwitchDefault, "annotations", {get: function() {
-          return [new Viewport({selector: '[switch-default]'})];
-        }});
-      Object.defineProperty(SwitchDefault, "parameters", {get: function() {
-          return [[ViewContainer], [Switch, new Parent()]];
-        }});
-      _whenDefault = new Object();
-    }
-  };
-});
-
 System.register("angular2/src/di/annotations", ["angular2/src/facade/lang"], function($__export) {
   "use strict";
   var __moduleName = "angular2/src/di/annotations";
@@ -3785,6 +3440,351 @@ System.register("angular2/src/di/opaque_token", [], function($__export) {
       Object.defineProperty(OpaqueToken, "parameters", {get: function() {
           return [[assert.type.string]];
         }});
+    }
+  };
+});
+
+System.register("angular2/src/directives/for", ["angular2/src/core/annotations/annotations", "angular2/src/core/compiler/view_container", "angular2/src/core/compiler/view", "angular2/src/facade/lang", "angular2/src/facade/collection"], function($__export) {
+  "use strict";
+  var __moduleName = "angular2/src/directives/for";
+  var Viewport,
+      ViewContainer,
+      View,
+      isPresent,
+      isBlank,
+      ListWrapper,
+      For,
+      RecordViewTuple;
+  return {
+    setters: [function($__m) {
+      Viewport = $__m.Viewport;
+    }, function($__m) {
+      ViewContainer = $__m.ViewContainer;
+    }, function($__m) {
+      View = $__m.View;
+    }, function($__m) {
+      isPresent = $__m.isPresent;
+      isBlank = $__m.isBlank;
+    }, function($__m) {
+      ListWrapper = $__m.ListWrapper;
+    }],
+    execute: function() {
+      For = $__export("For", (function() {
+        var For = function For(viewContainer) {
+          this.viewContainer = viewContainer;
+        };
+        return ($traceurRuntime.createClass)(For, {
+          set iterableChanges(changes) {
+            if (isBlank(changes)) {
+              this.viewContainer.clear();
+              return ;
+            }
+            var recordViewTuples = [];
+            changes.forEachRemovedItem((function(removedRecord) {
+              return ListWrapper.push(recordViewTuples, new RecordViewTuple(removedRecord, null));
+            }));
+            changes.forEachMovedItem((function(movedRecord) {
+              return ListWrapper.push(recordViewTuples, new RecordViewTuple(movedRecord, null));
+            }));
+            var insertTuples = For.bulkRemove(recordViewTuples, this.viewContainer);
+            changes.forEachAddedItem((function(addedRecord) {
+              return ListWrapper.push(insertTuples, new RecordViewTuple(addedRecord, null));
+            }));
+            For.bulkInsert(insertTuples, this.viewContainer);
+            for (var i = 0; i < insertTuples.length; i++) {
+              this.perViewChange(insertTuples[i].view, insertTuples[i].record);
+            }
+          },
+          perViewChange: function(view, record) {
+            view.setLocal('\$implicit', record.item);
+            view.setLocal('index', record.currentIndex);
+          }
+        }, {
+          bulkRemove: function(tuples, viewContainer) {
+            tuples.sort((function(a, b) {
+              return a.record.previousIndex - b.record.previousIndex;
+            }));
+            var movedTuples = [];
+            for (var i = tuples.length - 1; i >= 0; i--) {
+              var tuple = tuples[i];
+              if (isPresent(tuple.record.currentIndex)) {
+                tuple.view = viewContainer.detach(tuple.record.previousIndex);
+                ListWrapper.push(movedTuples, tuple);
+              } else {
+                viewContainer.remove(tuple.record.previousIndex);
+              }
+            }
+            return movedTuples;
+          },
+          bulkInsert: function(tuples, viewContainer) {
+            tuples.sort((function(a, b) {
+              return a.record.currentIndex - b.record.currentIndex;
+            }));
+            for (var i = 0; i < tuples.length; i++) {
+              var tuple = tuples[i];
+              if (isPresent(tuple.view)) {
+                viewContainer.insert(tuple.view, tuple.record.currentIndex);
+              } else {
+                tuple.view = viewContainer.create(tuple.record.currentIndex);
+              }
+            }
+            return tuples;
+          }
+        });
+      }()));
+      Object.defineProperty(For, "annotations", {get: function() {
+          return [new Viewport({
+            selector: '[for][of]',
+            bind: {'iterableChanges': 'of | iterableDiff'}
+          })];
+        }});
+      Object.defineProperty(For, "parameters", {get: function() {
+          return [[ViewContainer]];
+        }});
+      RecordViewTuple = (function() {
+        var RecordViewTuple = function RecordViewTuple(record, view) {
+          this.record = record;
+          this.view = view;
+        };
+        return ($traceurRuntime.createClass)(RecordViewTuple, {}, {});
+      }());
+    }
+  };
+});
+
+System.register("angular2/src/directives/if", ["angular2/src/core/annotations/annotations", "angular2/src/core/compiler/view_container", "angular2/src/facade/lang"], function($__export) {
+  "use strict";
+  var __moduleName = "angular2/src/directives/if";
+  var Viewport,
+      ViewContainer,
+      isBlank,
+      If;
+  return {
+    setters: [function($__m) {
+      Viewport = $__m.Viewport;
+    }, function($__m) {
+      ViewContainer = $__m.ViewContainer;
+    }, function($__m) {
+      isBlank = $__m.isBlank;
+    }],
+    execute: function() {
+      If = $__export("If", (function() {
+        var If = function If(viewContainer) {
+          this.viewContainer = viewContainer;
+          this.prevCondition = null;
+        };
+        return ($traceurRuntime.createClass)(If, {set condition(newCondition) {
+            if (newCondition && (isBlank(this.prevCondition) || !this.prevCondition)) {
+              this.prevCondition = true;
+              this.viewContainer.create();
+            } else if (!newCondition && (isBlank(this.prevCondition) || this.prevCondition)) {
+              this.prevCondition = false;
+              this.viewContainer.clear();
+            }
+          }}, {});
+      }()));
+      Object.defineProperty(If, "annotations", {get: function() {
+          return [new Viewport({
+            selector: '[if]',
+            bind: {'condition': 'if'}
+          })];
+        }});
+      Object.defineProperty(If, "parameters", {get: function() {
+          return [[ViewContainer]];
+        }});
+    }
+  };
+});
+
+System.register("angular2/src/directives/non_bindable", ["angular2/src/core/annotations/annotations"], function($__export) {
+  "use strict";
+  var __moduleName = "angular2/src/directives/non_bindable";
+  var Decorator,
+      NonBindable;
+  return {
+    setters: [function($__m) {
+      Decorator = $__m.Decorator;
+    }],
+    execute: function() {
+      NonBindable = $__export("NonBindable", (function() {
+        var NonBindable = function NonBindable() {
+          ;
+        };
+        return ($traceurRuntime.createClass)(NonBindable, {}, {});
+      }()));
+      Object.defineProperty(NonBindable, "annotations", {get: function() {
+          return [new Decorator({
+            selector: '[non-bindable]',
+            compileChildren: false
+          })];
+        }});
+    }
+  };
+});
+
+System.register("angular2/src/directives/switch", ["angular2/src/core/annotations/annotations", "angular2/src/core/compiler/view_container", "angular2/src/core/dom/element", "angular2/src/facade/lang", "angular2/src/facade/collection", "angular2/src/core/annotations/visibility"], function($__export) {
+  "use strict";
+  var __moduleName = "angular2/src/directives/switch";
+  var Decorator,
+      Viewport,
+      ViewContainer,
+      NgElement,
+      isPresent,
+      isBlank,
+      normalizeBlank,
+      ListWrapper,
+      List,
+      MapWrapper,
+      Map,
+      Parent,
+      Switch,
+      SwitchWhen,
+      SwitchDefault,
+      _whenDefault;
+  return {
+    setters: [function($__m) {
+      Decorator = $__m.Decorator;
+      Viewport = $__m.Viewport;
+    }, function($__m) {
+      ViewContainer = $__m.ViewContainer;
+    }, function($__m) {
+      NgElement = $__m.NgElement;
+    }, function($__m) {
+      isPresent = $__m.isPresent;
+      isBlank = $__m.isBlank;
+      normalizeBlank = $__m.normalizeBlank;
+    }, function($__m) {
+      ListWrapper = $__m.ListWrapper;
+      List = $__m.List;
+      MapWrapper = $__m.MapWrapper;
+      Map = $__m.Map;
+    }, function($__m) {
+      Parent = $__m.Parent;
+    }],
+    execute: function() {
+      Switch = $__export("Switch", (function() {
+        var Switch = function Switch() {
+          this._valueViewContainers = MapWrapper.create();
+          this._activeViewContainers = ListWrapper.create();
+          this._useDefault = false;
+        };
+        return ($traceurRuntime.createClass)(Switch, {
+          set value(value) {
+            this._emptyAllActiveViewContainers();
+            this._useDefault = false;
+            var containers = MapWrapper.get(this._valueViewContainers, value);
+            if (isBlank(containers)) {
+              this._useDefault = true;
+              containers = normalizeBlank(MapWrapper.get(this._valueViewContainers, _whenDefault));
+            }
+            this._activateViewContainers(containers);
+            this._switchValue = value;
+          },
+          _onWhenValueChanged: function(oldWhen, newWhen, viewContainer) {
+            this._deregisterViewContainer(oldWhen, viewContainer);
+            this._registerViewContainer(newWhen, viewContainer);
+            if (oldWhen === this._switchValue) {
+              viewContainer.remove();
+              ListWrapper.remove(this._activeViewContainers, viewContainer);
+            } else if (newWhen === this._switchValue) {
+              if (this._useDefault) {
+                this._useDefault = false;
+                this._emptyAllActiveViewContainers();
+              }
+              viewContainer.create();
+              ListWrapper.push(this._activeViewContainers, viewContainer);
+            }
+            if (this._activeViewContainers.length === 0 && !this._useDefault) {
+              this._useDefault = true;
+              this._activateViewContainers(MapWrapper.get(this._valueViewContainers, _whenDefault));
+            }
+          },
+          _emptyAllActiveViewContainers: function() {
+            var activeContainers = this._activeViewContainers;
+            for (var i = 0; i < activeContainers.length; i++) {
+              activeContainers[i].remove();
+            }
+            this._activeViewContainers = ListWrapper.create();
+          },
+          _activateViewContainers: function(containers) {
+            if (isPresent(containers)) {
+              for (var i = 0; i < containers.length; i++) {
+                containers[i].create();
+              }
+              this._activeViewContainers = containers;
+            }
+          },
+          _registerViewContainer: function(value, container) {
+            var containers = MapWrapper.get(this._valueViewContainers, value);
+            if (isBlank(containers)) {
+              containers = ListWrapper.create();
+              MapWrapper.set(this._valueViewContainers, value, containers);
+            }
+            ListWrapper.push(containers, container);
+          },
+          _deregisterViewContainer: function(value, container) {
+            if (value == _whenDefault)
+              return ;
+            var containers = MapWrapper.get(this._valueViewContainers, value);
+            if (containers.length == 1) {
+              MapWrapper.delete(this._valueViewContainers, value);
+            } else {
+              ListWrapper.remove(containers, container);
+            }
+          }
+        }, {});
+      }()));
+      Object.defineProperty(Switch, "annotations", {get: function() {
+          return [new Decorator({
+            selector: '[switch]',
+            bind: {'value': 'switch'}
+          })];
+        }});
+      Object.defineProperty(Switch.prototype._onWhenValueChanged, "parameters", {get: function() {
+          return [[], [], [ViewContainer]];
+        }});
+      Object.defineProperty(Switch.prototype._activateViewContainers, "parameters", {get: function() {
+          return [[assert.genericType(List, ViewContainer)]];
+        }});
+      Object.defineProperty(Switch.prototype._registerViewContainer, "parameters", {get: function() {
+          return [[], [ViewContainer]];
+        }});
+      Object.defineProperty(Switch.prototype._deregisterViewContainer, "parameters", {get: function() {
+          return [[], [ViewContainer]];
+        }});
+      SwitchWhen = $__export("SwitchWhen", (function() {
+        var SwitchWhen = function SwitchWhen(el, viewContainer, sswitch) {
+          this._value = _whenDefault;
+          this._switch = sswitch;
+          this._viewContainer = viewContainer;
+        };
+        return ($traceurRuntime.createClass)(SwitchWhen, {set when(value) {
+            this._switch._onWhenValueChanged(this._value, value, this._viewContainer);
+            this._value = value;
+          }}, {});
+      }()));
+      Object.defineProperty(SwitchWhen, "annotations", {get: function() {
+          return [new Viewport({
+            selector: '[switch-when]',
+            bind: {'when': 'switch-when'}
+          })];
+        }});
+      Object.defineProperty(SwitchWhen, "parameters", {get: function() {
+          return [[NgElement], [ViewContainer], [Switch, new Parent()]];
+        }});
+      SwitchDefault = $__export("SwitchDefault", (function() {
+        var SwitchDefault = function SwitchDefault(viewContainer, sswitch) {
+          sswitch._registerViewContainer(_whenDefault, viewContainer);
+        };
+        return ($traceurRuntime.createClass)(SwitchDefault, {}, {});
+      }()));
+      Object.defineProperty(SwitchDefault, "annotations", {get: function() {
+          return [new Viewport({selector: '[switch-default]'})];
+        }});
+      Object.defineProperty(SwitchDefault, "parameters", {get: function() {
+          return [[ViewContainer], [Switch, new Parent()]];
+        }});
+      _whenDefault = new Object();
     }
   };
 });

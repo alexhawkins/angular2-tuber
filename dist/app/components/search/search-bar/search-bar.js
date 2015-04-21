@@ -30,10 +30,10 @@ System.register("app/components/search/search-bar/search-bar", ["angular2/angula
           },
           getQuery: function($event) {
             $event.preventDefault();
-            var query = document.getElementById('query').value.trim();
+            var query = $event.target.value.trim();
             if (query !== '') {
               this.tuberService.searchYouTube(query);
-              document.getElementById('query').value = '';
+              $event.target.value !== '';
             }
           }
         }, {});

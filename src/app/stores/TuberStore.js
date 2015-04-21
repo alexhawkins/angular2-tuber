@@ -51,7 +51,7 @@ export class TuberStore {
     searchYouTube(query) {
         var baseURL = "https://www.googleapis.com/youtube/v3/search?";
         var specs = "safeSearch=moderate&part=snippet&q=";
-        var maxResults = "&maxResults=20&key=";
+        var maxResults = "&maxResults=50&key=";
         var apiKey = "AIzaSyC4W2PcBHccKu03OiW8l5Ff8LfsgdS5C44";
         var URL = baseURL + specs + query + maxResults + apiKey;
         return axios.get(URL).then(response => {
